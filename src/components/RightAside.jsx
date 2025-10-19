@@ -16,13 +16,13 @@ const RightAside = () => {
         <h1 className="text-[#403F3F] font-bold text-xl">Login With</h1>
 
         <div className="flex flex-col gap-4 my-4">
-          <button className="btn btn-outline btn-info">
-            <FaGoogle />
+          <button className="btn btn-outline btn-info py-6">
+            <FaGoogle size={24} />
             Login with Google
           </button>
 
-          <button className="btn btn-outline">
-            <FaGithub />
+          <button className="btn btn-outline py-6">
+            <FaGithub size={24} />
             Login with GitHub
           </button>
         </div>

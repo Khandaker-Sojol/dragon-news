@@ -20,14 +20,14 @@ const HomeLayout = () => {
           <Navbar></Navbar>
         </nav>
       </header>
-      <main className="grid md:grid-cols-10 gap-4">
-        <aside className="md:col-span-2">
+      <main className="grid md:grid-cols-12 gap-10">
+        <aside className="md:col-span-3">
           <LeftAside></LeftAside>
         </aside>
         <article className="md:col-span-6">
           <Outlet></Outlet>
         </article>
-        <aside className="md:col-span-2">
+        <aside className="md:col-span-3">
           <RightAside></RightAside>
         </aside>
       </main>

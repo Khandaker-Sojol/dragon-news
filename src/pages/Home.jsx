@@ -1,9 +1,11 @@
 import React from "react";
+import Categories from "../components/Categories";
+import CategoryNews from "./CategoryNews";
 
 const Home = () => {
   return (
     <div>
-      <h1>Home Page</h1>
+      <CategoryNews></CategoryNews>
     </div>
   );
 };
