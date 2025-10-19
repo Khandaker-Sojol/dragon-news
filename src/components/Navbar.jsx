@@ -1,8 +1,27 @@
-import React from "react";
-import { NavLink } from "react-router";
+import React, { use } from "react";
+import { Link, NavLink } from "react-router";
 import userImg from "../assets/user.png";
+import { AuthContext } from "../provider/AuthProvider";
+import { Outcome } from "firebase/ai";
+import { toast } from "react-toastify";
 
 const Navbar = () => {
+  const { user, logOut } = use(AuthContext);
+  const handleLogOut = () => {
+    console.log("User trying to log Out");
+    logOut()
+      .then(() => {
+        toast.success("Sign-out successful.", {
+          position: "top-center",
+        });
+      })
+      .catch((error) => {
+        toast.error(error.message, {
+          position: "top-center",
+        });
+      });
+  };
+
   const navLinks = (
     <>
       <li>
@@ -18,6 +37,7 @@ const Navbar = () => {
   );
   return (
     <div className="navbar py-4">
+      <div>{user && user.email}</div>
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -52,9 +72,21 @@ const Navbar = () => {
       </div>
       <div className="navbar-end gap-3">
         <img className="w-13" src={userImg} alt="" />
-        <button className="bg-[#403F3F] px-12 py-3 text-white font-semibold text-xl cursor-pointer">
-          Login
-        </button>
+        {user ? (
+          <button
+            onClick={handleLogOut}
+            className="bg-[#403F3F] px-12 py-3 text-white font-semibold text-xl cursor-pointer"
+          >
+            LogOut
+          </button>
+        ) : (
+          <Link
+            to="/auth/login"
+            className="bg-[#403F3F] px-12 py-3 text-white font-semibold text-xl cursor-pointer"
+          >
+            Login
+          </Link>
+        )}
       </div>
     </div>
   );

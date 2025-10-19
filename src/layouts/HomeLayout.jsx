@@ -10,7 +10,7 @@ import LeftAside from "../components/LeftAside";
 
 const HomeLayout = () => {
   return (
-    <div>
+    <div className="max-w-[1440px] mx-auto">
       <header>
         <Header></Header>
         <section>
@@ -21,13 +21,13 @@ const HomeLayout = () => {
         </nav>
       </header>
       <main className="grid md:grid-cols-12 gap-10">
-        <aside className="md:col-span-3">
+        <aside className="md:col-span-3 sticky h-fit top-0">
           <LeftAside></LeftAside>
         </aside>
         <article className="md:col-span-6">
           <Outlet></Outlet>
         </article>
-        <aside className="md:col-span-3">
+        <aside className="md:col-span-3 sticky h-fit top-0">
           <RightAside></RightAside>
         </aside>
       </main>
