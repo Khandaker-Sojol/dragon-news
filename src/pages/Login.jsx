@@ -1,12 +1,16 @@
-import React, { use } from "react";
+import React, { use, useState } from "react";
 import { GoogleAuthProvider } from "firebase/auth";
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { AuthContext } from "../provider/AuthProvider";
 import { toast } from "react-toastify";
 
 const Login = () => {
+  const [error, setError] = useState("");
+
   const { signInUser } = use(AuthContext);
   const navigate = useNavigate();
+  const location = useLocation();
+  console.log(location);
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -25,10 +29,10 @@ const Login = () => {
         toast.success("User Login successfully", {
           position: "top-center",
         });
-        navigate("/");
+        navigate(`${location.state ? location.state : "/"}`);
       })
       .catch((error) => {
-        console.log(error.message);
+        setError(error.message);
       });
   };
   // const googleProvider = new GoogleAuthProvider();
@@ -68,6 +72,9 @@ const Login = () => {
             <div>
               <a className="link link-hover">Forgot password?</a>
             </div>
+            {error && (
+              <p className="text-red-500 font-medium text-sm mt-2">{error}</p>
+            )}
             <button className="btn btn-neutral mt-4">Login</button>
           </fieldset>
           <div className="text-center my-4 ">

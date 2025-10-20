@@ -1,10 +1,13 @@
-import React, { use } from "react";
+import React, { use, useState } from "react";
 import { Link } from "react-router";
 import { AuthContext } from "../provider/AuthProvider";
 import { toast } from "react-toastify";
 
 const Register = () => {
   const { createUser, setUser } = use(AuthContext);
+  const [error, setError] = useState("");
+  const [passError, setPassError] = useState("");
+  const [checkboxError, setCheckboxError] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -14,7 +17,30 @@ const Register = () => {
     const password = e.target.password.value;
     const name = e.target.name.value;
     const photo = e.target.photo.value;
-    console.log({ email, password, photo, name });
+    const checked = e.target.checkbox.checked;
+    console.log({ email, password, photo, name, checked });
+
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+    if (!passwordRegex.test(password)) {
+      const passErrorMsg =
+        "Password must be at least 8 characters long, include uppercase, lowercase, number & special character.";
+      setPassError(passErrorMsg);
+      return;
+    }
+    if (!checked) {
+      // toast.error("You must accept the Terms & Conditions.", {
+      //   position: "top-center",
+      // });
+      setCheckboxError("You must accept the Terms & Conditions.");
+      return;
+    }
+
+    // reset Error
+    setPassError("");
+    setError("");
+    setCheckboxError("");
 
     // Create User
     createUser(email, password)
@@ -28,10 +54,8 @@ const Register = () => {
         e.target.reset();
       })
       .catch((error) => {
-        const errorMessage = error.message;
-        toast.error(errorMessage, {
-          position: "top-center",
-        });
+        const errorCode = error.code;
+        setError(errorCode);
       });
   };
   return (
@@ -72,13 +96,30 @@ const Register = () => {
               name="password"
               required
             />
+            {passError && (
+              <p className="text-red-500 text-sm w-[330px] mt-2">{passError}</p>
+            )}
+
+            {error && <p className="text-red-500 text-sm w-[330px]">{error}</p>}
+
             <div className="flex gap-2 text-[16px] pt-1">
-              <input type="checkbox" defaultChecked className="checkbox-md" />
+              <input
+                type="checkbox"
+                name="checkbox"
+                defaultChecked
+                className="checkbox-md"
+              />
               <p className="text-[#706F6F] ">
                 Accept our{" "}
                 <Link className="font-semibold">Term & Conditions</Link>
               </p>
             </div>
+            {checkboxError && (
+              <p className="text-red-500 text-sm w-[330px] mt-2">
+                {checkboxError}
+              </p>
+            )}
+
             <button type="submit" className="btn btn-neutral mt-4">
               Register
             </button>
