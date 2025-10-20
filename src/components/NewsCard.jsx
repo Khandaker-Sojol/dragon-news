@@ -1,9 +1,11 @@
 import { FaStar, FaEye } from "react-icons/fa";
 import { CiBookmark } from "react-icons/ci";
 import { BsShare } from "react-icons/bs";
+import { Link } from "react-router";
 
 const NewsCard = ({ news }) => {
-  const { title, author, thumbnail_url, details, rating, total_view } = news;
+  const { id, title, author, thumbnail_url, details, rating, total_view } =
+    news;
 
   const formattedDate = new Date(author.published_date)
     .toISOString()
@@ -55,9 +57,12 @@ const NewsCard = ({ news }) => {
           <p className="leading-relaxed line-clamp-3">
             {details.slice(0, 250)}...
           </p>
-          <span className="text-orange-500 font-semibold cursor-pointer hover:underline">
+          <Link
+            to={`/news-details/${id}`}
+            className="text-orange-500 font-semibold cursor-pointer hover:underline"
+          >
             Read More ...
-          </span>
+          </Link>
         </div>
 
         {/* Footer */}
